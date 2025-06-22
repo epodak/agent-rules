@@ -48,10 +48,10 @@ detect_project_type() {
     
     echo -e "${YELLOW}🔍 Analyzing project structure...${NC}"
     
-    # Check for different project types
+    # Check for JavaScript projects
     if [[ -f "package.json" ]]; then
         project_types+=("javascript")
-        echo "  ✓ JavaScript/Node.js project detected"
+        echo "  ✓ JavaScript/Node.js project detected (package.json)"
         
         # Check for frameworks
         if grep -q "react" package.json 2>/dev/null; then
@@ -66,6 +66,9 @@ detect_project_type() {
             project_types+=("nextjs")
             echo "  ✓ Next.js framework detected"
         fi
+    elif find . -maxdepth 2 -name "*.js" -o -name "*.ts" -o -name "*.jsx" -o -name "*.tsx" | head -1 | grep -q "\.\(js\|ts\|jsx\|tsx\)$"; then
+        project_types+=("javascript")
+        echo "  ✓ JavaScript project detected (JS/TS files found)"
     fi
     
     if [[ -f "requirements.txt" ]] || [[ -f "pyproject.toml" ]] || [[ -f "setup.py" ]]; then
