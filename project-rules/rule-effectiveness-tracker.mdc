@@ -1,0 +1,118 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Rule Effectiveness Tracker
+
+## Purpose
+Quantify the impact and effectiveness of each rule to identify high-value rules and eliminate ineffective ones.
+
+## Usage Pattern
+Before implementing any rule, establish baseline metrics. After implementation, measure improvements.
+
+## Tracking Framework
+
+### 1. Performance Metrics
+```yaml
+rule_name: "implement-task"
+metrics:
+  time_to_completion:
+    before: 45min
+    after: 25min
+    improvement: 44%
+  code_quality_score:
+    before: 6.5/10
+    after: 8.2/10
+    improvement: 26%
+  bugs_introduced:
+    before: 3 per task
+    after: 0.8 per task
+    improvement: 73%
+```
+
+### 2. Usage Analytics
+```typescript
+interface RuleUsage {
+  ruleName: string;
+  invocations: number;
+  successRate: number;
+  userSatisfaction: number; // 1-10
+  timesSaved: number; // in minutes
+  errorsPrevented: number;
+}
+```
+
+### 3. Real-time Effectiveness Scoring
+```python
+def calculate_rule_score(rule_metrics):
+    """Calculate effectiveness score (0-100)"""
+    weight_factors = {
+        'time_saved': 0.3,
+        'error_reduction': 0.4, 
+        'code_quality': 0.2,
+        'user_satisfaction': 0.1
+    }
+    
+    score = 0
+    for metric, value in rule_metrics.items():
+        if metric in weight_factors:
+            score += value * weight_factors[metric]
+    
+    return min(100, max(0, score))
+```
+
+## Implementation Actions
+
+### Before Using Any Rule
+1. Record current performance baseline
+2. Set specific improvement targets
+3. Define success criteria
+
+### During Rule Usage
+1. Track adherence rate
+2. Monitor deviations
+3. Note pain points
+
+### After Task Completion
+1. Measure actual vs expected results
+2. Update rule effectiveness score
+3. Document lessons learned
+
+## High-Value Rule Indicators
+- **Time Savings**: >20% reduction in task completion time
+- **Error Prevention**: >50% reduction in bugs
+- **Consistency**: >90% adherence rate across team
+- **User Satisfaction**: >8/10 rating
+
+## Rule Retirement Criteria
+- Effectiveness score <30 for 3 consecutive months
+- Usage rate <5% across projects
+- Replaced by better patterns
+- Technology/framework deprecation
+
+## Monthly Review Process
+```bash
+# Generate rule effectiveness report
+./scripts/analyze-rule-effectiveness.sh
+
+# Output example:
+# Rule: implement-task.mdc
+# Score: 87/100 (High Value)
+# Usage: 45 times, 92% success rate
+# Impact: 2.3 hours saved per week
+# Recommendation: Expand with more examples
+```
+
+## Integration with Existing Rules
+Add this tracking block to every rule:
+
+```yaml
+# At the end of each .mdc file
+effectiveness_tracking:
+  baseline_date: "2024-01-15"
+  last_measured: "2024-01-30"
+  current_score: 85
+  trend: "increasing"
+  next_review: "2024-02-15"
+```
