@@ -12,7 +12,7 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Configuration
-AGENT_RULES_REPO="https://github.com/epodak/agent-rules.git"
+AGENT_RULES_REPO="git@github.com:epodak/agent-rules.git"
 AGENT_RULES_DIR="$HOME/.agent-rules"
 CURSOR_RULES_DIR=".cursor/rules"
 CLAUDE_FILE="CLAUDE.md"

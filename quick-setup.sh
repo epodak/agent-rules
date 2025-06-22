@@ -9,7 +9,7 @@ echo "🚀 One-Click AI Rules Setup"
 echo "=========================="
 
 # Download and execute the global installer
-curl -s https://raw.githubusercontent.com/your-username/agent-rules/main/global-install.sh | bash
+curl -s https://raw.githubusercontent.com/epodak/agent-rules/main/global-install.sh | bash
 
 echo ""
 echo "🎯 Setup complete! Your project now has intelligent AI rules." 
