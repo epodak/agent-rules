@@ -11,17 +11,39 @@ A collection of **measurable, intelligent** AI coding assistant rules with autom
 
 ## ⚡ Quick Start
 
+### 🐍 Python版本（推荐）
 ```bash
 # Clone and setup
 git clone [repo-url] agent-rules
 cd agent-rules
 
+# 智能模式：自动分析并安装规则
+python grule.py
+
+# 或者分步执行
+python grule.py --deploy    # 首次部署规则库
+python grule.py --install   # 在项目中安装规则
+
+# 迁移从Bash版本
+python migrate_to_python.py
+```
+
+### 🔧 Bash版本（传统）
+```bash
 # Smart installation (detects your project type)
 ./install-smart-rules.sh
 
 # Analyze effectiveness (run after 1 week)
 ./scripts/analyze-rule-effectiveness.sh
 ```
+
+> **💡 为什么选择Python版本？**
+> - 🧠 更智能的项目分析和规则推荐
+> - 📊 Rich库支持，更美观的输出界面
+> - 🔧 更强的扩展性和配置驱动
+> - 🐍 Pure Python实现，更好的可维护性
+> 
+> 详见 [PYTHON_VERSION.md](./PYTHON_VERSION.md)
 
 ## 🎯 Core Value Proposition
 

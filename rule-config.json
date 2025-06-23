@@ -1,0 +1,178 @@
+{
+  "rules": {
+    "implement-task": {
+      "category": "core",
+      "description": "任务实现规则",
+      "conditions": {
+        "always": true
+      },
+      "weight": 10,
+      "tags": ["essential", "development"]
+    },
+    "bug-fix": {
+      "category": "core", 
+      "description": "Bug修复规则",
+      "conditions": {
+        "always": true
+      },
+      "weight": 10,
+      "tags": ["essential", "debugging"]
+    },
+    "quick-wins": {
+      "category": "productivity",
+      "description": "快速胜利策略",
+      "conditions": {
+        "always": true
+      },
+      "weight": 8,
+      "tags": ["productivity", "optimization"]
+    },
+    "code-analysis": {
+      "category": "quality",
+      "description": "代码分析规则",
+      "conditions": {
+        "project_size": ["medium", "large"],
+        "languages": ["javascript", "typescript", "python", "java", "csharp"]
+      },
+      "weight": 7,
+      "tags": ["quality", "analysis"]
+    },
+    "modern-swift": {
+      "category": "language_specific",
+      "description": "现代Swift开发规则",
+      "conditions": {
+        "languages": ["swift"]
+      },
+      "weight": 9,
+      "tags": ["swift", "modern", "ios"]
+    },
+    "pr-review": {
+      "category": "collaboration",
+      "description": "代码审查规则",
+      "conditions": {
+        "team_size": ["medium", "large"],
+        "project_maturity": ["mature"],
+        "has_git": true
+      },
+      "weight": 8,
+      "tags": ["review", "collaboration", "quality"]
+    },
+    "add-to-changelog": {
+      "category": "documentation",
+      "description": "变更日志规则",
+      "conditions": {
+        "team_size": ["medium", "large"],
+        "project_maturity": ["mature"],
+        "has_releases": true
+      },
+      "weight": 6,
+      "tags": ["documentation", "changelog"]
+    },
+    "clean": {
+      "category": "maintenance",
+      "description": "代码清理规则",
+      "conditions": {
+        "project_size": ["small", "medium"]
+      },
+      "weight": 7,
+      "tags": ["cleanup", "maintenance"]
+    },
+    "commit": {
+      "category": "workflow",
+      "description": "提交规范规则",
+      "conditions": {
+        "has_git": true
+      },
+      "weight": 8,
+      "tags": ["git", "workflow"]
+    },
+    "check": {
+      "category": "quality",
+      "description": "代码检查规则",
+      "conditions": {
+        "project_size": ["medium", "large"]
+      },
+      "weight": 7,
+      "tags": ["quality", "validation"]
+    },
+    "five": {
+      "category": "testing",
+      "description": "测试增强规则",
+      "conditions": {
+        "has_testing": true
+      },
+      "weight": 8,
+      "tags": ["testing", "quality"]
+    },
+    "continuous-improvement": {
+      "category": "process",
+      "description": "持续改进规则",
+      "conditions": {
+        "project_maturity": ["mature"],
+        "team_size": ["medium", "large"]
+      },
+      "weight": 6,
+      "tags": ["improvement", "process"]
+    },
+    "rule-effectiveness-tracker": {
+      "category": "meta",
+      "description": "规则效果追踪",
+      "conditions": {
+        "always": true
+      },
+      "weight": 5,
+      "tags": ["tracking", "meta"]
+    }
+  },
+  "conditions_mapping": {
+    "project_size": {
+      "small": "文件数 < 10 或 代码行数 < 1000",
+      "medium": "文件数 10-50 或 代码行数 1000-10000", 
+      "large": "文件数 > 50 或 代码行数 > 10000"
+    },
+    "team_size": {
+      "solo": "贡献者 <= 1",
+      "small": "贡献者 2-3",
+      "medium": "贡献者 4-10",
+      "large": "贡献者 > 10"
+    },
+    "project_maturity": {
+      "new": "提交数 < 10",
+      "developing": "提交数 10-100",
+      "mature": "提交数 > 100"
+    },
+    "languages": {
+      "javascript": ["*.js", "*.jsx", "package.json"],
+      "typescript": ["*.ts", "*.tsx", "tsconfig.json"],
+      "python": ["*.py", "requirements.txt", "pyproject.toml", "setup.py"],
+      "swift": ["*.swift", "Package.swift", "*.xcodeproj"],
+      "java": ["*.java", "pom.xml", "build.gradle"],
+      "csharp": ["*.cs", "*.csproj", "*.sln"],
+      "rust": ["*.rs", "Cargo.toml"],
+      "go": ["*.go", "go.mod"]
+    },
+    "frameworks": {
+      "react": ["react", "next"],
+      "vue": ["vue", "@vue"],
+      "django": ["django"],
+      "fastapi": ["fastapi"],
+      "flask": ["flask"],
+      "express": ["express"],
+      "spring": ["spring-boot"]
+    }
+  },
+  "custom_rules": {
+    "example": {
+      "name": "api-security",
+      "category": "security",
+      "description": "API安全检查规则",
+      "conditions": {
+        "frameworks": ["django", "fastapi", "flask", "express"],
+        "project_size": ["medium", "large"]
+      },
+      "weight": 9,
+      "tags": ["security", "api"],
+      "file_path": "custom-rules/api-security.mdc"
+    }
+  }
+} 
