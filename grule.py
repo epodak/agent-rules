@@ -583,8 +583,8 @@ class RuleManager:
         """
         console.print("\n[cyan]正在安装核心联动规则...[/cyan]")
         
-        # 源目录：grule.py 脚本所在目录下的 global-rules/
-        source_dir = self.path_manager.script_dir / "global-rules"
+        # 源目录：~/.agent-rules/global-rules/
+        source_dir = self.path_manager.agent_rules_dir / "global-rules"
         # 目标目录：当前项目下的 .cursor/rules/
         dest_dir = self.path_manager.original_cwd / ".cursor/rules"
         
