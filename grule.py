@@ -15,6 +15,7 @@ import logging
 import os
 import shlex
 import subprocess
+import shutil
 import sys
 import traceback
 from contextlib import contextmanager
@@ -501,7 +502,6 @@ class RuleManager:
             return False
         
         if force and agent_rules_dir.exists():
-            import shutil
             shutil.rmtree(agent_rules_dir)
         
         if source_path:
@@ -511,7 +511,6 @@ class RuleManager:
                 console.print(f"[red]源路径不存在: {source_path}[/red]")
                 return False
             
-            import shutil
             shutil.copytree(source, agent_rules_dir)
             console.print(f"[green]从本地路径部署成功: {source_path}[/green]")
         else:
@@ -551,27 +550,68 @@ class RuleManager:
             console.print("[red]规则库未部署，请先运行 deploy[/red]")
             return False
         
-        # 分析项目
+        # [步骤A] 安装核心联动规则 (新功能)
+        self._install_foundational_rules()
+
+        # [步骤B] 执行项目分析并安装推荐规则 (保留原有逻辑)
         features = self.analyzer.analyze()
-        
-        # 显示分析结果
         self._display_analysis_results(features)
         
-        # 获取推荐规则
         recommendations = self.engine.recommend_rules(features)
-        
-        # 显示推荐结果
         self._display_recommendations(recommendations)
         
-        # 安装规则
+        recommended_rule_names = [r.name for r in recommendations]
+
         if target in ["cursor", "both"]:
-            self._install_cursor_rules([r.name for r in recommendations])
+            # 原有的方法现在只负责安装推荐的规则
+            self._install_cursor_rules(recommended_rule_names)
         
         if target in ["claude", "both"]:
-            self._install_claude_rules([r.name for r in recommendations])
+            # claude 的规则可以合并基础和推荐的
+            all_rule_names = ["gissue-workflow", "gmemory-best-practices", "project-retrospective"] + recommended_rule_names
+            # 去重
+            unique_rule_names = list(dict.fromkeys(all_rule_names))
+            self._install_claude_rules(unique_rule_names)
         
-        console.print("[green]规则安装完成！[/green]")
+        console.print("\n[bold green]✅ 规则安装完成！[/bold green]")
         return True
+    
+    def _install_foundational_rules(self):
+        """
+        安装核心的、与项目无关的联动规则。
+        这些规则教会 AI 如何使用 gissue 和 gmemory。
+        """
+        console.print("\n[cyan]正在安装核心联动规则...[/cyan]")
+        
+        # 源目录：grule.py 脚本所在目录下的 global-rules/
+        source_dir = self.path_manager.script_dir / "global-rules"
+        # 目标目录：当前项目下的 .cursor/rules/
+        dest_dir = self.path_manager.original_cwd / ".cursor/rules"
+        
+        if not source_dir.exists():
+            console.print(f"[yellow]警告: 核心规则目录 '{source_dir}' 未找到。跳过此步骤。[/yellow]")
+            return
+
+        try:
+            # 确保目标目录存在
+            dest_dir.mkdir(parents=True, exist_ok=True)
+            
+            # 拷贝文件
+            found_rules = 0
+            for rule_file in source_dir.glob("*.mdc"):
+                dest_file = dest_dir / rule_file.name
+                shutil.copy2(rule_file, dest_file)
+                console.print(f"  - [green]已安装:[/green] {rule_file.name}")
+                found_rules += 1
+            
+            if found_rules == 0:
+                 console.print(f"[yellow]在 '{source_dir}' 中未找到任何核心规则文件 (.mdc)。[/yellow]")
+            else:
+                console.print(f"[green]核心联动规则安装完成: {found_rules}个[/green]")
+
+        except Exception as e:
+            console.print(f"[red]安装核心规则时发生错误: {e}[/red]")
+            logging.error(f"Failed to install foundational rules: {e}", exc_info=True)
     
     def _display_analysis_results(self, features: List[ProjectFeature]):
         """显示分析结果"""
@@ -620,7 +660,6 @@ class RuleManager:
             rule_file = rules_dir / f"{rule_name}.mdc"
             if rule_file.exists():
                 target_file = cursor_dir / f"{rule_name}.mdc"
-                import shutil
                 shutil.copy2(rule_file, target_file)
                 installed_count += 1
         
