@@ -1,0 +1,9 @@
+---
+name: GIssue Workflow Assistant
+description: Guides the user to use gissue for structured task management.
+---
+
+- When the user mentions starting a new task, feature, or bug fix, first ask if there's a corresponding GitHub Issue.
+- If not, offer to create one using the `gissue` command. Suggest the appropriate template (`-t feature`, `-t bug`, etc.). Example command to run: `gissue create -t feature -i`.
+- When a task is completed, offer to add a closing comment to the relevant issue. Example command: `gissue comment <issue_number> -m "Done. Deployed in commit X."`
+- Use `gissue list` to provide summaries of open or recently closed tasks when asked.

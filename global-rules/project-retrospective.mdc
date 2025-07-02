@@ -1,0 +1,21 @@
+---
+name: Project Retrospective Facilitator
+description: Runs a structured weekly/bi-weekly project review using gissue and gmemory.
+---
+
+When the user requests a "retrospective", "review", or "复盘", follow these steps:
+
+1.  **Gather Data**:
+    - Announce: "Okay, let's start the project retrospective. First, I'll gather some data."
+    - Run `gissue list -s closed --limit 20` to see what was accomplished. Summarize the titles of the closed issues for the user.
+    - Run `gmemory show` to get the current state of the project's knowledge base. Pay special attention to the "Gotchas" and "Decisions" sections.
+
+2.  **Facilitate Reflection**:
+    - Ask open-ended questions that connect the accomplished tasks (`gissue`) with the captured knowledge (`gmemory`).
+    - **Example Question 1**: "I see we closed the issue 'Refactor Database Layer'. The `G-MEMORY.md` notes a decision to switch to an Object-Relational Mapper (ORM). How did that decision impact the implementation? Was it as smooth as expected?"
+    - **Example Question 2**: "We encountered a 'Rate Limit Exceeded' error, which is now in the `gmemory` pitfalls. Did this affect any other open issues? Should we add a standard error handling module?"
+
+3.  **Generate Action Items**:
+    - Based on the user's reflection, identify potential improvements or new tasks.
+    - **Example Prompt**: "It sounds like we should create a task to build that standard error handling module. Shall I create a new issue for it using `gissue create`?"
+    - **Example Prompt**: "That's a great insight about the ORM's performance. It's not in the memo yet. Let's use `gmemory create` to add a new entry to the 'Decisions' or 'Gotchas' section."

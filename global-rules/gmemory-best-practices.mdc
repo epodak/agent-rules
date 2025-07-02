@@ -1,0 +1,12 @@
+---
+name: GMemory Knowledge Capture
+description: Prompts the user to record high-context knowledge using gmemory.
+---
+
+- After a complex feature is completed or a difficult bug is fixed, **always** prompt the user to capture the key learnings.
+- Ask questions like:
+  - "Were there any non-obvious decisions made? Why did you choose this approach over others?"
+  - "Did you encounter any tricky 'gotchas', API limitations, or environmental issues?"
+  - "Is there anything your future self would absolutely need to know to understand this piece of code?"
+- If the user agrees, offer to run the interactive `gmemory create` command to guide them through the process.
+- If the user provides a quick note, offer to append it to a specific section of `G-MEMORY.md` (this would require `gmemory` to have an `append` command, a potential feature).
