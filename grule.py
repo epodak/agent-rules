@@ -582,6 +582,12 @@ class RuleManager:
         这些规则教会 AI 如何使用 gissue 和 gmemory。
         """
         console.print("\n[cyan]正在安装核心联动规则...[/cyan]")
+
+        core_rules_to_install = [
+            "gissue-workflow.mdc",
+            "gmemory-best-practices.mdc",
+            "project-retrospective.mdc"
+        ]
         
         # 源目录：~/.agent-rules/global-rules/
         source_dir = self.path_manager.agent_rules_dir / "global-rules"
@@ -597,17 +603,21 @@ class RuleManager:
             dest_dir.mkdir(parents=True, exist_ok=True)
             
             # 拷贝文件
-            found_rules = 0
-            for rule_file in source_dir.glob("*.mdc"):
-                dest_file = dest_dir / rule_file.name
-                shutil.copy2(rule_file, dest_file)
-                console.print(f"  - [green]已安装:[/green] {rule_file.name}")
-                found_rules += 1
-            
-            if found_rules == 0:
-                 console.print(f"[yellow]在 '{source_dir}' 中未找到任何核心规则文件 (.mdc)。[/yellow]")
+            installed_count = 0
+            for rule_filename in core_rules_to_install:
+                source_file = source_dir / rule_filename
+                if source_file.exists():
+                    dest_file = dest_dir / source_file.name
+                    shutil.copy2(source_file, dest_file)
+                    console.print(f"  - [green]已安装:[/green] {source_file.name}")
+                    installed_count += 1
+                else:
+                    console.print(f"  - [yellow]未找到规则:[/yellow] {rule_filename}")
+
+            if installed_count == 0:
+                 console.print(f"[yellow]在 '{source_dir}' 中未找到任何指定的核心规则文件。[/yellow]")
             else:
-                console.print(f"[green]核心联动规则安装完成: {found_rules}个[/green]")
+                console.print(f"[green]核心联动规则安装完成: {installed_count}个[/green]")
 
         except Exception as e:
             console.print(f"[red]安装核心规则时发生错误: {e}[/red]")
